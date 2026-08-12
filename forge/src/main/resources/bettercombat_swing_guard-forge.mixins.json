@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.cosmos.bettercombat.swingguard.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "ServerNetworkMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+

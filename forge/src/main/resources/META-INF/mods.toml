@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GPL-3.0-only"
+
+[[mods]]
+modId="bettercombat_swing_guard"
+version="$version"
+displayName="Better Combat Swing Guard"
+authors="Cosmos"
+description='''Makes Better Combat weapon swings block incoming attacks from the front.'''
+
+[[dependencies.bettercombat_swing_guard]]
+modId="forge"
+mandatory=true
+versionRange="[47.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.bettercombat_swing_guard]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.bettercombat_swing_guard]]
+modId="bettercombat"
+mandatory=true
+versionRange="[1.9.0,1.10.0)"
+ordering="AFTER"
+side="BOTH"
