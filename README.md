@@ -1,6 +1,6 @@
 # Better Combat Swing Guard
 
-面向 Minecraft 1.20.1 与 Better Combat 1.9.0 的附属模组。支持 Fabric 和 Forge。
+面向 Minecraft 1.19.2 与 Better Combat 1.7.1 的附属模组。支持 Fabric 和 Forge。
 
 ## 功能
 
@@ -18,13 +18,13 @@
 
 ## 兼容范围
 
-- Minecraft 1.20.1
+- Minecraft 1.19.2
 - Java 17
-- Better Combat 1.9.0+1.20.1
-- Fabric Loader 0.14.21 及 Fabric API
-- Forge 47.1+
+- Better Combat 1.7.1+1.19
+- Fabric Loader 0.14.9 及 Fabric API
+- Forge 43.1+
 
-附属模组针对 Better Combat 1.20.1 分支的 1.9.0 网络与攻击 API 实现，并在元数据中限制了对应版本范围。只有 Better Combat 已识别并分配武器属性的物品会获得挥砍格挡。
+附属模组针对 Better Combat 1.19.2 分支的 1.7.1 网络与攻击 API 实现，并在元数据中限制了对应版本范围。只有 Better Combat 已识别并分配武器属性的物品会获得挥砍格挡。
 
 ## 构建
 
@@ -34,14 +34,14 @@
 
 产物位于：
 
-    fabric\build\libs\bettercombat-swing-guard-fabric-1.0.0+1.20.1.jar
-    forge\build\libs\bettercombat-swing-guard-forge-1.0.0+1.20.1.jar
+    fabric\build\libs\bettercombat-swing-guard-fabric-1.0.0+1.19.2.jar
+    forge\build\libs\bettercombat-swing-guard-forge-1.0.0+1.19.2.jar
 
 运行时仍需安装 Better Combat 自身要求的 Fabric API（Fabric）、Cloth Config 与 playerAnimator。
 
 ## 实现说明
 
-Better Combat 在客户端开始攻击动画时会向服务端发送 AttackAnimation 数据包，但 1.9.0 服务端原本只转发动画，不保存挥砍状态。本附属模组包装同一个接收器，在服务端完成以下工作：
+Better Combat 在客户端开始攻击动画时会向服务端发送 AttackAnimation 数据包，但 1.7.1 服务端原本只转发动画，不保存挥砍状态。本附属模组包装同一个接收器，在服务端完成以下工作：
 
 1. 验证发包玩家当前手持物确实有 Better Combat 武器属性。
 2. 验证动画名、攻击手、双持或双手状态、动画时长和攻击冷却。
@@ -49,4 +49,3 @@ Better Combat 在客户端开始攻击动画时会向服务端发送 AttackAnima
 4. 将有效窗口接入 LivingEntity.blockedByShield 的原版判定。
 
 这避免了额外客户端计时器与服务端计时器漂移，也不会修改 Better Combat 的攻击命中、连段、伤害或动画。
-

@@ -29,7 +29,7 @@ public abstract class PlayerEntityMixin implements SwingGuardState {
     @Inject(method = "tick", at = @At("HEAD"))
     private void swingGuard$tickGuardWindow(CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        if (player.getWorld().isClient() || swingGuard$remainingTicks <= 0) {
+        if (player.world.isClient || swingGuard$remainingTicks <= 0) {
             return;
         }
 
@@ -47,7 +47,7 @@ public abstract class PlayerEntityMixin implements SwingGuardState {
     @Inject(method = "damageShield", at = @At("HEAD"))
     private void swingGuard$damageGuardingWeapon(float amount, CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
-        if (player.getWorld().isClient()
+        if (player.world.isClient
                 || player.isBlocking()
                 || amount < 3.0F
                 || !swingGuard$isGuarding()) {

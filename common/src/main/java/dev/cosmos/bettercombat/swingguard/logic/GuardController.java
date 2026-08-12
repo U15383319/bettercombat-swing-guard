@@ -83,7 +83,7 @@ public final class GuardController {
                 durationTicks,
                 hand,
                 stack,
-                player.getWorld().getTime()
+                player.world.getTime()
         );
     }
 
