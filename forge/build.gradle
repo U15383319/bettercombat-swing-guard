@@ -28,7 +28,6 @@ dependencies {
     modImplementation "maven.modrinth:5sy6g3kz:" + rootProject.better_combat_forge_artifact
     modImplementation "me.shedaniel.cloth:cloth-config-forge:" + rootProject.cloth_config_version
     modImplementation "dev.kosmx.player-anim:player-animation-lib-forge:" + rootProject.player_animator_version
-    modLocalRuntime "io.github.llamalad7:mixinextras-forge:" + rootProject.mixin_extras_version
 
     common(project(path: ":common", configuration: "namedElements")) {
         transitive false
