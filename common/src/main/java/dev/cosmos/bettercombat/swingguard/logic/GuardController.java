@@ -1,7 +1,7 @@
 package dev.cosmos.bettercombat.swingguard.logic;
 
 import dev.cosmos.bettercombat.swingguard.api.SwingGuardState;
-import net.bettercombat.BetterCombat;
+import net.bettercombat.BetterCombatMod;
 import net.bettercombat.api.WeaponAttributes;
 import net.bettercombat.logic.AnimatedHand;
 import net.bettercombat.logic.PlayerAttackHelper;
@@ -71,7 +71,7 @@ public final class GuardController {
         }
 
         double upswingRate = MathHelper.clamp(attack.upswing(), 0.0D, 1.0D)
-                * BetterCombat.config.getUpswingMultiplier();
+                * BetterCombatMod.config.getUpswingMultiplier();
         float minimumCooldown = (float) Math.max(0.0D, 1.0D - upswingRate - COOLDOWN_TOLERANCE);
         if (player.getAttackCooldownProgress(0.5F) < minimumCooldown) {
             state.swingGuard$end();

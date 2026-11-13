@@ -2,26 +2,29 @@
 
 [Back to README](../README.md)
 
-This guide describes the `main` branch, targeting Minecraft 1.20.1 and Better Combat 1.9.0+1.20.1.
+This guide describes the `main` branch, targeting Minecraft 1.21.1 and Better Combat 2.4.0+1.21.1. The previous Minecraft 1.20.1 version is preserved on the `1.20.1` branch.
 
 ## Compatibility and installation
 
-Use the Fabric or Forge build for your Minecraft version and loader. Install Better Combat and its required dependencies, including Fabric API on Fabric, Cloth Config, and playerAnimator.
+Use the Fabric or NeoForge build for your Minecraft version and loader. Install Better Combat and its required dependencies, including Fabric API on Fabric, Cloth Config, and playerAnimator. Better Combat's Minecraft 1.21.1 releases use NeoForge in place of Forge.
 
 | Component | Build dependency |
 | --- | --- |
-| Minecraft | 1.20.1 |
-| Java | 17 |
-| Better Combat | 1.9.0+1.20.1 |
-| Fabric Loader | 0.14.21 |
-| Fabric API | 0.83.1+1.20.1 |
-| Forge | 47.1.47 |
-| Cloth Config | 11.1.106 |
-| playerAnimator | 1.0.2+1.19.4 |
+| Minecraft | 1.21.1 |
+| Java | 21 |
+| Better Combat | 2.4.0+1.21.1 |
+| Fabric Loader | 0.16.5 |
+| Fabric API | 0.103.0+1.21.1 |
+| NeoForge | 21.1.1 |
+| Cloth Config | 15.0.130 |
+| playerAnimator | 2.0.0-alpha1+1.21 |
+| Tiny Config (development runtime) | 3.1.0 |
 
-These are the versions pinned in [`gradle.properties`](../gradle.properties). The Fabric descriptor requires Fabric Loader 0.14.21 or newer and the exact Better Combat version above. The Forge descriptor requires Forge 47.1 or newer and declares the Better Combat range `[1.9.0,1.10.0)` (inclusive lower bound, exclusive upper bound). That range is a metadata constraint, not a claim that every version in it has been tested.
+These are the versions pinned in [`gradle.properties`](../gradle.properties). The Fabric descriptor requires Fabric Loader 0.16.5 or newer; the NeoForge descriptor requires NeoForge 21.1.1 or newer. Both require Minecraft 1.21.1 and the exact Better Combat version above because the integration targets its networking API.
 
 Only items recognized by Better Combat's weapon registry, with at least one configured attack, can start a guard window. The integration depends on the attack and networking APIs of the targeted Better Combat release.
+
+Better Combat bundles Tiny Config in its release JAR. The development builds add it explicitly because Loom removes embedded dependencies when remapping mods.
 
 ## Guard mechanics
 
@@ -38,7 +41,7 @@ The feature activates automatically without an additional keybind. It leaves Bet
 
 ## Server-side implementation
 
-Better Combat sends an `AttackAnimation` packet when a client starts an attack animation. This add-on wraps Better Combat's existing receiver on each loader, inspects a copy of the packet buffer, and still calls the original receiver. Guard validation runs on the server thread and uses the authenticated sending player rather than the packet's entity ID.
+Better Combat sends an `AttackAnimation` payload when a client starts an attack animation. Fabric and NeoForge route that payload through the shared `ServerNetwork.handleAttackAnimation` method. This add-on injects at the start of that method through [`ServerNetworkMixin`](../common/src/main/java/dev/cosmos/bettercombat/swingguard/mixin/ServerNetworkMixin.java), leaving Better Combat's original handling intact. Guard validation runs on the server thread and uses the authenticated sending player rather than the payload's entity ID.
 
 [`GuardController`](../common/src/main/java/dev/cosmos/bettercombat/swingguard/logic/GuardController.java) handles the following checks:
 
@@ -56,14 +59,14 @@ Using the existing animation packets avoids adding a separate client guard timer
 ## Project layout
 
 - `common/`: guard state, validation, and vanilla entity mixins shared by both loaders.
-- `fabric/`: Fabric entrypoint, networking receiver wrapper, and mod metadata.
-- `forge/`: Forge entrypoint, networking receiver wrapper, and mod metadata.
+- `fabric/`: Fabric entrypoint and mod metadata.
+- `neoforge/`: NeoForge entrypoint and mod metadata.
 
-The build uses Architectury and Loom, with Java compilation targeting version 17.
+The build uses Architectury, Loom, and Gradle 8.8, with Java compilation targeting version 21. Layered Yarn mappings include Architectury's NeoForge mapping patch so both loaders share the same sources.
 
 ## Building
 
-Use JDK 17. From the repository root, run:
+Use JDK 21. From the repository root, run:
 
 ```powershell
 .\gradlew.bat build
@@ -78,8 +81,18 @@ On Linux or macOS:
 The first build needs network access to download Gradle, Minecraft, plugins, and dependencies. The distributable JARs for this branch are:
 
 ```text
-fabric/build/libs/bettercombat-swing-guard-fabric-1.0.0+1.20.1.jar
-forge/build/libs/bettercombat-swing-guard-forge-1.0.0+1.20.1.jar
+fabric/build/libs/bettercombat-swing-guard-fabric-1.0.0+1.21.1.jar
+neoforge/build/libs/bettercombat-swing-guard-neoforge-1.0.0+1.21.1.jar
 ```
 
 Choose the JAR for your loader. The `-dev`, `-dev-shadow`, and `-sources` JARs are development artifacts.
+
+## Automated gameplay checks
+
+Run the Fabric headless GameTest server with JDK 21:
+
+```powershell
+.\gradlew.bat :fabric:runGameTest
+```
+
+The tests exercise Better Combat's real animation handler and vanilla damage processing: guard activation and cancellation, invalid payload rejection, dual-wielding, front/back direction checks, weapon durability, axe disabling, and weapon replacement. The test mod is kept in a separate source set and is excluded from release JARs. Results are written to `fabric/build/gametest/results.xml`.

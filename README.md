@@ -1,6 +1,6 @@
 # Better Combat Swing Guard
 
-A Better Combat add-on for Fabric and Forge that automatically blocks frontal attacks while you swing a weapon. No extra keybinds required.
+A Better Combat add-on for Fabric and NeoForge that automatically blocks frontal attacks while you swing a weapon. No extra keybinds required.
 
 - Guarding follows the full attack animation and stops when the swing is cancelled.
 - Uses vanilla shield rules, including weapon durability loss and axe disable cooldowns.
@@ -8,9 +8,9 @@ A Better Combat add-on for Fabric and Forge that automatically blocks frontal at
 
 ## Requirements
 
-This branch (`main`) targets **Minecraft 1.20.1** and **Better Combat 1.9.0+1.20.1** with **Java 17**.
+This branch (`main`) targets **Minecraft 1.21.1** and **Better Combat 2.4.0+1.21.1** with **Java 21**.
 
-Install the matching Fabric or Forge JAR alongside Better Combat and its required dependencies.
+Install the matching Fabric or NeoForge JAR alongside Better Combat and its required dependencies.
 
 See the [technical guide](docs/TECHNICAL.md) for dependency versions, detailed mechanics, implementation, and build instructions.
 

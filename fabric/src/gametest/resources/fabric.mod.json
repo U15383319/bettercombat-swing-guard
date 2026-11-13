@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "swingguard_gametest",
+  "version": "1.0.0",
+  "name": "Swing Guard GameTests",
+  "license": "GPL-3.0-only",
+  "environment": "server",
+  "entrypoints": {
+    "fabric-gametest": [
+      "dev.cosmos.bettercombat.swingguard.gametest.SwingGuardGameTest"
+    ]
+  },
+  "depends": {
+    "bettercombat_swing_guard": "*",
+    "fabric-gametest-api-v1": "*"
+  }
+}

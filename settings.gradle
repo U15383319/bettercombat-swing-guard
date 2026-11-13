@@ -2,18 +2,18 @@ pluginManagement {
     repositories {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
-        maven { url "https://maven.minecraftforge.net/" }
+        maven { url "https://maven.neoforged.net/releases/" }
         gradlePluginPortal()
     }
 }
 
-if (JavaVersion.current() < JavaVersion.VERSION_17) {
-    throw new IllegalStateException("Java 17 or newer is required")
+if (JavaVersion.current() < JavaVersion.VERSION_21) {
+    throw new IllegalStateException("Java 21 or newer is required")
 }
 
 include("common")
 include("fabric")
-include("forge")
+include("neoforge")
 
 rootProject.name = "bettercombat-swing-guard"
 

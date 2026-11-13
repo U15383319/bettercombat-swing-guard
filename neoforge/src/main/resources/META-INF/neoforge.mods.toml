@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[47,)"
+loaderVersion="[2,)"
 license="GPL-3.0-only"
 
 [[mods]]
@@ -10,22 +10,25 @@ authors="Cosmos"
 description='''Makes Better Combat weapon swings block incoming attacks from the front.'''
 
 [[dependencies.bettercombat_swing_guard]]
-modId="forge"
-mandatory=true
-versionRange="[47.1,)"
+modId="neoforge"
+type="required"
+versionRange="[21.1.1,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.bettercombat_swing_guard]]
 modId="minecraft"
-mandatory=true
-versionRange="[1.20.1,1.20.2)"
+type="required"
+versionRange="[1.21.1,1.21.2)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.bettercombat_swing_guard]]
 modId="bettercombat"
-mandatory=true
-versionRange="[1.9.0,1.10.0)"
+type="required"
+versionRange="[$better_combat_version]"
 ordering="AFTER"
 side="BOTH"
+
+[[mixins]]
+config="bettercombat_swing_guard.mixins.json"

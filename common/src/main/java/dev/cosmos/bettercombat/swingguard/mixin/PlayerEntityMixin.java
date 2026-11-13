@@ -2,6 +2,7 @@ package dev.cosmos.bettercombat.swingguard.mixin;
 
 import dev.cosmos.bettercombat.swingguard.api.SwingGuardState;
 import net.bettercombat.logic.WeaponRegistry;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -61,14 +62,14 @@ public abstract class PlayerEntityMixin implements SwingGuardState {
         }
 
         int durabilityDamage = 1 + MathHelper.floor(amount);
-        stack.damage(durabilityDamage, player, brokenPlayer -> brokenPlayer.sendToolBreakStatus(hand));
+        stack.damage(durabilityDamage, player, LivingEntity.getSlotForHand(hand));
         if (stack.isEmpty()) {
             swingGuard$end();
         }
     }
 
     @Inject(method = "disableShield", at = @At("TAIL"))
-    private void swingGuard$respectAxeShieldDisable(boolean sprinting, CallbackInfo ci) {
+    private void swingGuard$respectAxeShieldDisable(CallbackInfo ci) {
         PlayerEntity player = (PlayerEntity) (Object) this;
         if (player.getItemCooldownManager().isCoolingDown(Items.SHIELD)) {
             swingGuard$end();
